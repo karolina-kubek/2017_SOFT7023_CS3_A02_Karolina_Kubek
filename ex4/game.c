@@ -199,31 +199,17 @@ void new_movement(game* g) {
 //------------------------------------
 bool winning_row(game* g, int row, int ply) {
 	int strike = 0;
-	if (ply == 1) {
-		for (int j = 0; j < COLUMNS; j++) {
+	char player_character = (ply == 1) ? 'X' : 'O';
+	for (int j = 0; j < COLUMNS; j++) {
 			
-			if ((*g).board[row][j] == 'X') {
-				strike = strike + 1;
-				if (strike == CONNECT) {
-					return True;
-				}
-			}
-			else {
-				strike = 0;
+		if ((*g).board[row][j] == player_character) {
+			strike = strike + 1;
+			if (strike == CONNECT) {
+				return True;
 			}
 		}
-	}
-	else {
-		for (int j = 0; j < COLUMNS; j++) {
-			if ((*g).board[row][j] == 'O') {
-				strike = strike + 1;
-				if (strike == CONNECT) {
-					return True;
-				}
-			}
-			else {
-				strike = 0;
-			}
+		else {
+			strike = 0;
 		}
 	}
 	return False;
@@ -234,30 +220,16 @@ bool winning_row(game* g, int row, int ply) {
 //------------------------------------
 bool winning_column(game* g, int column, int ply) {
 	int strike = 0;
-	if (ply == 1) {
-		for (int i = 0; i < ROWS; i++) {
+	char player_character = ( ply == 1 ) ? 'X' : 'O';
+	for (int i = 0; i < ROWS; i++) {
+		if ((*g).board[i][column] == player_character) {
+			strike = strike + 1;
 			if (strike == CONNECT) {
 				return True;
-			}
-			if ((*g).board[i][column] == 'X') {
-				strike = strike + 1;
-			}
-			else {
-				strike = 0;
 			}
 		}
-	}
-	else {
-		for (int i = 0; i < ROWS; i++) {
-			if (strike == CONNECT) {
-				return True;
-			}
-			if ((*g).board[i][column] == 'O') {
-				strike = strike + 1;
-			}
-			else {
-				strike = 0;
-			}
+		else {
+			strike = 0;
 		}
 	}
 	return False;
@@ -268,31 +240,14 @@ bool winning_column(game* g, int column, int ply) {
 //------------------------------------
 bool winning_diagonal(game* g, int diagonal, int ply, bool left) {
 	int strike = 0;
-	int i = diagonal;
+	int i;
+	char player_character = ( ply == 1 ) ? 'X': 'O';
 	if (left) {
-		if (ply == 1) {
-			for (int j = 0; j < COLUMNS; j++) {
-				if( i < ROWS) {
-					if ((*g).board[i][j] == 'X') {
-						strike = strike + 1;
-						if (strike == CONNECT) {
-							return True;
-						}
-					}
-					else {
-						strike = 0;
-					}
-					i++;
-				}
-				else {
-					return False;
-				}
-			}
-		}
-		else {
-			for (int j = 0; j < COLUMNS; j++) {
+		for (int k = 0; k < COLUMNS; k++) {
+			i = diagonal;
+			for (int j = k; j < COLUMNS; j++) {
 				if (i < ROWS) {
-					if ((*g).board[i][j] == 'O') {
+					if ((*g).board[i][j] == player_character) {
 						strike = strike + 1;
 						if (strike == CONNECT) {
 							return True;
@@ -301,19 +256,18 @@ bool winning_diagonal(game* g, int diagonal, int ply, bool left) {
 					else {
 						strike = 0;
 					}
+
 					i++;
-				}
-				else {
-					return False;
 				}
 			}
 		}
 	}
 	else {
-		if (ply == 1) {
-			for (int j = COLUMNS - 1; j >= 0; j--) {
+		for (int k = COLUMNS - 1; k >= 0; k--) {
+			i = diagonal;
+			for (int j = k; j >= 0; j--) {
 				if (i < ROWS) {
-					if ((*g).board[i][j] == 'X') {
+					if ((*g).board[i][j] == player_character) {
 						strike = strike + 1;
 						if (strike == CONNECT) {
 							return True;
@@ -323,28 +277,6 @@ bool winning_diagonal(game* g, int diagonal, int ply, bool left) {
 						strike = 0;
 					}
 					i++;
-				}
-				else {
-					return False;
-				}
-			}
-		}
-		else {
-			for (int j = COLUMNS - 1; j >= 0; j--) {
-				if (i < ROWS) {
-					if ((*g).board[i][j] == 'O') {
-						strike = strike + 1;
-						if (strike == CONNECT) {
-							return True;
-						}
-					}
-					else {
-						strike = 0;
-					}
-					i++;
-				}
-				else {
-					return False;
 				}
 			}
 		}
