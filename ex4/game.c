@@ -1,6 +1,6 @@
 
 //------------------------------------
-//	Include Libraries 
+//	Include Libraries
 //------------------------------------
 #include "game.h"
 
@@ -10,9 +10,9 @@
 //------------------------------------
 game* create_new_game(char* p1, char* p2){
 	//1. We create the variable for hosting the game
-	game* g = (game*)malloc(1 * sizeof(game));  
+	game* g = (game*)malloc(1 * sizeof(game));
 
-	//2. We use the names passed as arguments 
+	//2. We use the names passed as arguments
 	(*g).p1 = (char*)malloc((strlen(p1) + 1) * sizeof(char));
 	strcpy((*g).p1, p1);
 
@@ -40,7 +40,7 @@ game* create_new_game(char* p1, char* p2){
 }
 
 //------------------------------------
-//	02. FUNCTION display_board 
+//	02. FUNCTION display_board
 //------------------------------------
 void display_board(game* g){
 	printf("------------------\n   GAME STATUS   \n------------------\n\n");
@@ -65,7 +65,7 @@ void display_board(game* g){
 				printf("| O ");
 				break;
 			}
-			
+
 		}
 		printf("|\n");
 		for (int j = 0; j < COLUMNS; j++) {
@@ -77,7 +77,7 @@ void display_board(game* g){
 }
 
 //------------------------------------
-//	03. FUNCTION display_game_status 
+//	03. FUNCTION display_game_status
 //------------------------------------
 void display_game_status(game* g) {
 	display_board(g);
@@ -120,7 +120,7 @@ char my_get_char() {
 }
 
 //------------------------------------
-//	05. FUNCTION ask_for_column 
+//	05. FUNCTION ask_for_column
 //------------------------------------
 int ask_for_column(game* g) {
 	int col = 0;
@@ -133,21 +133,21 @@ int ask_for_column(game* g) {
 }
 
 //------------------------------------
-//	06. FUNCTION user_movement 
+//	06. FUNCTION user_movement
 //------------------------------------
 int user_movement(game* g) {
 	return 	ask_for_column(g);
 }
 
 //------------------------------------
-//	07. FUNCTION computer_movement 
+//	07. FUNCTION computer_movement
 //------------------------------------
 int computer_movement(game* g) {
-	return gen_num(1, 7);
+	return gen_num(1, COLUMNS);
 }
 
 //------------------------------------
-//	07.1 EXTRA FUNCTION gen_num 
+//	07.1 EXTRA FUNCTION gen_num
 //------------------------------------
 int gen_num(int lb, int ub) {
 	//1. We create the output variable with an initial value.
@@ -160,7 +160,7 @@ int gen_num(int lb, int ub) {
 	return res;
 }
 //------------------------------------
-//	08. FUNCTION new_movement 
+//	08. FUNCTION new_movement
 //------------------------------------
 void new_movement(game* g) {
 	int col;
@@ -195,13 +195,13 @@ void new_movement(game* g) {
 }
 
 //------------------------------------
-//	09. FUNCTION winning_row 
+//	09. FUNCTION winning_row
 //------------------------------------
 bool winning_row(game* g, int row, int ply) {
 	int strike = 0;
 	char player_character = (ply == 1) ? 'X' : 'O';
 	for (int j = 0; j < COLUMNS; j++) {
-			
+
 		if ((*g).board[row][j] == player_character) {
 			strike = strike + 1;
 			if (strike == CONNECT) {
@@ -216,7 +216,7 @@ bool winning_row(game* g, int row, int ply) {
 }
 
 //------------------------------------
-//	10. FUNCTION winning_column 
+//	10. FUNCTION winning_column
 //------------------------------------
 bool winning_column(game* g, int column, int ply) {
 	int strike = 0;
@@ -236,7 +236,7 @@ bool winning_column(game* g, int column, int ply) {
 }
 
 //------------------------------------
-//	11. FUNCTION winning_diagonal 
+//	11. FUNCTION winning_diagonal
 //------------------------------------
 bool winning_diagonal(game* g, int diagonal, int ply, bool left) {
 	int strike = 0;
@@ -260,6 +260,7 @@ bool winning_diagonal(game* g, int diagonal, int ply, bool left) {
 					i++;
 				}
 			}
+			strike = 0;
 		}
 	}
 	else {
@@ -279,13 +280,14 @@ bool winning_diagonal(game* g, int diagonal, int ply, bool left) {
 					i++;
 				}
 			}
+			strike = 0;
 		}
 	}
 	return False;
 }
 
 //------------------------------------
-//	12. FUNCTION winning_player 
+//	12. FUNCTION winning_player
 //------------------------------------
 bool winning_player(game* g, int ply) {
 	bool winnerExists = False;
@@ -318,7 +320,6 @@ bool winning_player(game* g, int ply) {
 		}
 	}
 
-	
 	for (int row = 0; row < ROWS; row++) {
 		winnerExists = winning_diagonal(g, row, ply, True);
 		if (winnerExists) {
@@ -347,7 +348,7 @@ bool winning_player(game* g, int ply) {
 }
 
 //------------------------------------
-//	13. FUNCTION update_status 
+//	13. FUNCTION update_status
 //------------------------------------
 void update_status(game* g) {
 	if ((*g).status == 1) {
@@ -359,7 +360,7 @@ void update_status(game* g) {
 }
 
 //------------------------------------
-//	14. FUNCTION play_game 
+//	14. FUNCTION play_game
 //------------------------------------
 void play_game(char* p1, char* p2){
 	game* g = create_new_game(p1, p2);
